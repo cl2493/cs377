@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.slk325.quotemaker'
+    namespace 'com.clsk.quotemaker'
     compileSdk 35
 
     defaultConfig {
-        applicationId "com.slk325.quotemaker"
+        applicationId "com.clsk.quotemaker"
         minSdk 24
         targetSdk 35
         versionCode 1
@@ -30,6 +30,11 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
+
+    // ViewBinding
+    viewBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -45,4 +50,14 @@ dependencies {
     //noinspection UseTomlInstead
     implementation "androidx.cardview:cardview:1.0.0"
 
+    // ViewModel + LiveData
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.7.0"
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
 }

@@ -1,4 +1,4 @@
-package com.slk325.quotemaker
+package com.clsk.quotemaker
 
 import org.junit.Test
 
