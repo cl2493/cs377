@@ -7,20 +7,42 @@ import kotlinx.coroutines.withContext
 
 class QuoteRepository(private val apiService: QuoteApiService) {
 
-    // In-memory cache of favorites (in a real app, use Room database)
+    // In-memory cache of favorites
     private val favorites = mutableListOf<Quote>()
 
     suspend fun getRandomQuote(): Quote {
         return withContext(Dispatchers.IO) {
-            val response = apiService.getRandomQuote()
-            Quote(
-                content = response.content,
-                author = response.author
-            )
+            try {
+                val response = apiService.getRandomQuote()
+                // ZenQuotes returns a list with one quote
+                val zenQuote = response.firstOrNull()
+
+                // Convert ZenQuote to your app's Quote model
+                Quote(
+                    content = zenQuote?.content ?: "Error loading quote",
+                    author = zenQuote?.author ?: "Unknown"
+                )
+            } catch (e: Exception) {
+                // Provide a fallback quote if the API call fails
+                Quote(
+                    content = "Failed to load quote: ${e.message}",
+                    author = "Error"
+                )
+            }
         }
     }
+
     fun addToFavorites(quote: Quote) {
-        favorites.add(quote)
+        // Check if the quote is already in favorites to avoid duplicates
+        if (!favorites.any { it.content == quote.content && it.author == quote.author }) {
+            // Create a new Quote object with isFavorite set to true
+            val favoriteQuote = Quote(
+                content = quote.content,
+                author = quote.author,
+                isFavorite = true
+            )
+            favorites.add(favoriteQuote)
+        }
     }
 
     fun getFavorites(): List<Quote> {
