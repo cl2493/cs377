@@ -69,17 +69,36 @@
 
     <Button
         android:id="@+id/btnGenerate"
-        android:layout_width="171dp"
-        android:layout_height="58dp"
+        android:layout_width="220dp"
+        android:layout_height="60dp"
         android:layout_marginBottom="44dp"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="@color/blue"
         android:text="Give Me a Quote!"
         android:textColor="@color/white"
-        android:textSize="15sp"
+        android:textSize="20sp"
         app:cornerRadius="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnFavorite"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
         tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/btnFavorite"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="44dp"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@color/blue"
+        android:text="♡"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        app:cornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnGenerate"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="HardcodedText" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
