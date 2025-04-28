@@ -1,13 +1,10 @@
-// Create this file at:
-// app/src/main/java/com/clsk/quotemaker/network/RetrofitClient.kt
-
 package com.clsk.quotemaker.network
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    private const val BASE_URL = "https://api.quotable.io/"
+    private const val BASE_URL = "https://zenquotes.io/api/"
 
     val instance: Retrofit by lazy {
         Retrofit.Builder()

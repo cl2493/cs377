@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.clsk.quotemaker.data.model.Quote
 import com.clsk.quotemaker.data.repository.QuoteRepository
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class QuoteViewModel(private val repository: QuoteRepository) : ViewModel() {
 
@@ -20,23 +19,37 @@ class QuoteViewModel(private val repository: QuoteRepository) : ViewModel() {
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
+    private val _favorites = MutableLiveData<List<Quote>>(emptyList())
+    val favorites: LiveData<List<Quote>> = _favorites
+
     fun getRandomQuote() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val result = repository.getRandomQuote()
-                _quote.value = result
-                _isLoading.value = false
+                val randomQuote = repository.getRandomQuote()
+                _quote.value = randomQuote
             } catch (e: Exception) {
                 _error.value = "Failed to load quote: ${e.message}"
+            } finally {
                 _isLoading.value = false
             }
         }
     }
 
     fun addToFavorites(quote: Quote) {
-        viewModelScope.launch {
-            repository.addToFavorites(quote)
-        }
+        val updatedFavorites = _favorites.value?.toMutableList() ?: mutableListOf()
+        updatedFavorites.add(quote)
+        _favorites.value = updatedFavorites
+    }
+
+    fun removeFromFavorites(quote: Quote) {
+        val updatedFavorites = _favorites.value?.toMutableList() ?: mutableListOf()
+        updatedFavorites.remove(quote)
+        _favorites.value = updatedFavorites
+    }
+
+
+    fun getFavorites(): List<Quote> {
+        return _favorites.value ?: emptyList()
     }
 }
