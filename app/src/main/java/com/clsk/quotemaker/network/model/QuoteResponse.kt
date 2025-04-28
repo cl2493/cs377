@@ -1,12 +1,19 @@
-package com.clsk.quotemaker.network.model
+package com.clsk.quotemaker.data.model
 
-// data class for API response
+import com.google.gson.annotations.SerializedName
+
 data class QuoteResponse(
-    // declare variables
-       // string for quote
+    @SerializedName("_id")
+    val id: String,
+    @SerializedName("content")
     val content: String,
-       // string for author
-    val author: String
-)
-
-
+    @SerializedName("author")
+    val author: String,
+    @SerializedName("tags")
+    val tags: List<String>,
+    @SerializedName("length")
+    val length: Int
+) {
+    val quote: Quote
+        get() = Quote(content, author)
+}

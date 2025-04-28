@@ -100,5 +100,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="HardcodedText" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/quoteCard"
+        app:layout_constraintBottom_toBottomOf="@id/quoteCard"
+        app:layout_constraintStart_toStartOf="@id/quoteCard"
+        app:layout_constraintEnd_toEndOf="@id/quoteCard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
