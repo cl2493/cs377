@@ -3,16 +3,13 @@ package com.clsk.quotemaker
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.clsk.quotemaker.data.repository.QuoteRepository
+import com.clsk.quotemaker.data.model.Quote
 import com.clsk.quotemaker.databinding.ActivityMainBinding
-import com.clsk.quotemaker.network.RetrofitClient
 import com.clsk.quotemaker.ui.viewmodel.QuoteViewModel
 import com.clsk.quotemaker.ui.viewmodel.QuoteViewModelFactory
-import com.clsk.quotemaker.data.model.Quote
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,9 +22,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val repository = QuoteRepository(RetrofitClient.quoteApiService)
-        val viewModelFactory = QuoteViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory)[QuoteViewModel::class.java]
+        viewModel = ViewModelProvider(this, QuoteViewModelFactory())[QuoteViewModel::class.java]
 
         setupObservers()
         setupClickListeners()
@@ -64,21 +59,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.viewFavoritesButton.setOnClickListener { // Assuming the button's id is "btnViewFavorites"
+        binding.viewFavoritesButton.setOnClickListener {
             val intent = Intent(this, FavoritesActivity::class.java)
             startActivity(intent)
         }
     }
 
     private fun setupShareButton() {
-        findViewById<Button>(R.id.shareButton).setOnClickListener {
-            currentQuote?.let { quote ->
+        binding.shareButton.setOnClickListener {
+            if (currentQuote != null) {
+                val quote = currentQuote!!
                 val shareIntent = Intent().apply {
                     action = Intent.ACTION_SEND
                     putExtra(Intent.EXTRA_TEXT, "\"${quote.content}\" - ${quote.author}")
                     type = "text/plain"
                 }
                 startActivity(Intent.createChooser(shareIntent, "Share quote via"))
+            } else {
+                Toast.makeText(this, "No quote to share yet!", Toast.LENGTH_SHORT).show()
             }
         }
     }
