@@ -1,29 +1,25 @@
 package com.clsk.quotemaker.data.repository
 
 import com.clsk.quotemaker.data.model.Quote
-import com.clsk.quotemaker.network.QuoteApiService
+import com.clsk.quotemaker.network.RetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class QuoteRepository(private val apiService: QuoteApiService) {
+object QuoteRepository {
 
-    // In-memory cache of favorites
+    private val apiService = RetrofitClient.quoteApiService
     private val favorites = mutableListOf<Quote>()
 
     suspend fun getRandomQuote(): Quote {
         return withContext(Dispatchers.IO) {
             try {
                 val response = apiService.getRandomQuote()
-                // ZenQuotes returns a list with one quote
                 val zenQuote = response.firstOrNull()
-
-                // Convert ZenQuote to your app's Quote model
                 Quote(
                     content = zenQuote?.content ?: "Error loading quote",
                     author = zenQuote?.author ?: "Unknown"
                 )
             } catch (e: Exception) {
-                // Provide a fallback quote if the API call fails
                 Quote(
                     content = "Failed to load quote: ${e.message}",
                     author = "Error"
@@ -33,15 +29,14 @@ class QuoteRepository(private val apiService: QuoteApiService) {
     }
 
     fun addToFavorites(quote: Quote) {
-        // Check if the quote is already in favorites to avoid duplicates
         if (!favorites.any { it.content == quote.content && it.author == quote.author }) {
-            // Create a new Quote object with isFavorite set to true
-            val favoriteQuote = Quote(
-                content = quote.content,
-                author = quote.author,
-                isFavorite = true
+            favorites.add(
+                Quote(
+                    content = quote.content,
+                    author = quote.author,
+                    isFavorite = true
+                )
             )
-            favorites.add(favoriteQuote)
         }
     }
 

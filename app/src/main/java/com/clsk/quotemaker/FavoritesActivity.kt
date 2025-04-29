@@ -2,13 +2,12 @@ package com.clsk.quotemaker
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.clsk.quotemaker.data.repository.QuoteRepository
-import com.clsk.quotemaker.network.RetrofitClient
 import com.clsk.quotemaker.ui.viewmodel.FavoritesAdapter
 import com.clsk.quotemaker.ui.viewmodel.QuoteViewModel
 import com.clsk.quotemaker.ui.viewmodel.QuoteViewModelFactory
@@ -24,9 +23,12 @@ class FavoritesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites)
 
-        val repository = QuoteRepository(RetrofitClient.quoteApiService)
-        val viewModelFactory = QuoteViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory)[QuoteViewModel::class.java]
+        val backButton = findViewById<ImageButton>(R.id.backButton)
+        backButton.setOnClickListener {
+            finish()
+        }
+
+        viewModel = ViewModelProvider(this, QuoteViewModelFactory())[QuoteViewModel::class.java]
 
         recyclerView = findViewById(R.id.favoritesRecyclerView)
         emptyText = findViewById(R.id.emptyFavoritesText)
