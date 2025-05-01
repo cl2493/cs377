@@ -1,8 +1,8 @@
-# cs377 - QuoteMaker Android App
+# cs377 - QuoteGenerator Android App
 
 ## 📱 Overview
 
-**QuoteMaker** is a simple and elegant Android app that delivers motivational and inspirational quotes at the tap of a button. It integrates with the **[ZenQuotes API](https://zenquotes.io/)** to fetch real-time quotes and allows users to save their favorites locally.
+**QuoteGenerator** is a simple and elegant Android app that delivers motivational and inspirational quotes at the tap of a button. It integrates with the **[ZenQuotes API](https://zenquotes.io/)** to fetch real-time quotes and allows users to save their favorites locally.
 
 The app is built using **Kotlin**, follows the **MVVM architecture**, and uses **Retrofit** for API communication and **Room** for local data persistence.
 
@@ -22,7 +22,7 @@ The app is built using **Kotlin**, follows the **MVVM architecture**, and uses *
 ## 🚀 How It Works
 
 1. **MainActivity** launches and displays the quote generator screen.
-2. Tapping **“Give Me a Quote!”** sends a request to the **ZenQuotes API**.
+2. Tapping **“New Quote!”** sends a request to the **ZenQuotes API**.
 3. The app displays a new quote on the screen.
 4. Tapping the ♡ button saves the quote to the **Room database**.
 5. Tapping the ↗ button will allow you to share your quote.
@@ -34,7 +34,7 @@ The app is built using **Kotlin**, follows the **MVVM architecture**, and uses *
 
 - **Language:** Kotlin
 - **Architecture:** MVVM
-- **UI:** ConstraintLayout, RecyclerView
+- **UI:** ConstraintLayout, LinearLayout, RecyclerView
 - **API:** [ZenQuotes API](https://zenquotes.io/)
 - **Networking:** Retrofit
 - **Database:** Room (SQLite)
